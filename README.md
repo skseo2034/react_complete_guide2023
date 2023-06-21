@@ -44,3 +44,11 @@ You don’t have to ever use `eject`. The curated feature set is suitable for sm
 You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
 
 To learn React, check out the [React documentation](https://reactjs.org/).
+
+## 리액트 프로젝트 생성
+1. npx create-react-app my-app
+2. npx create-react-app my-app --template typescript
+3. eslint 설정을 위한 추가 설치
+   npm i @typescript-eslint/eslint-plugin @typescript-eslint/parser eslint@8.22.0 eslint-config-react-app eslint-plugin-prettier prettier react-app
+4. IDE 의 typescript 는 내장 버전을 사용.
+
