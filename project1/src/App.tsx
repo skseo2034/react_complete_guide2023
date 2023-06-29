@@ -1,5 +1,6 @@
 import Expenses from './components/Expenses/Expenses';
 import NewExpense from './components/NewExpense/NewExpense';
+import SeoTest from './components/SeoTest';
 
 function App() {
 	const expenses = [
@@ -26,6 +27,7 @@ function App() {
 	];
 	return (
 		<div>
+			{/*<SeoTest />*/}
 			<NewExpense />
 			<Expenses items={expenses} />
 		</div>
