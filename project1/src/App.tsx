@@ -1,6 +1,7 @@
 import Expenses from './components/Expenses/Expenses';
 import NewExpense from './components/NewExpense/NewExpense';
 import SeoTest from './components/SeoTest';
+import { useState } from 'react';
 
 function App() {
 	const expenses = [
@@ -25,11 +26,19 @@ function App() {
 			date: new Date(2021, 5, 12),
 		},
 	];
+
+	const [expenseDatas, setExpenseDatas] = useState(expenses);
+	const addExpenseHandler = (expense: { id: string; title: string; amount: number; date: Date }) => {
+		//setExpenseDatas(prevState => [...prevState, expenseData]);
+
+		console.log('In App.tsx');
+		console.log(expense);
+	};
 	return (
 		<div>
 			{/*<SeoTest />*/}
-			<NewExpense />
-			<Expenses items={expenses} />
+			<NewExpense onAddExpense={addExpenseHandler} />
+			<Expenses items={expenseDatas} />
 		</div>
 	);
 }
