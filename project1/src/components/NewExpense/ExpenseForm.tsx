@@ -1,12 +1,15 @@
 import './ExpenseForm.css';
-import React, { useState } from 'react';
+import React, { FC, useState } from 'react';
 
 /*const ExpenseForm = (props: {
 	addExpenseData: (expenseData: { id: string; title: string; amount: number; date: Date }) => void;
 })*/
-const ExpenseForm = (props: {
+
+interface Props {
 	onSaveExpenseData: (enteredExpenseData: { title: string; amount: number; date: Date }) => void;
-}) => {
+	onCancel: () => void;
+}
+const ExpenseForm: FC<Props> = ({ onSaveExpenseData, onCancel }) => {
 	const [enteredTitle, setEnteredTitle] = useState('');
 	const [enteredAmount, setEnteredAmount] = useState('');
 	const [enteredDate, setEnteredDate] = useState('');
@@ -70,7 +73,7 @@ const ExpenseForm = (props: {
 		};
 
 		//props.addExpenseData(expenseData);
-		props.onSaveExpenseData(expenseData);
+		onSaveExpenseData(expenseData);
 
 		setEnteredTitle('');
 		setEnteredAmount('');
@@ -110,6 +113,9 @@ const ExpenseForm = (props: {
 				</div>
 			</div>
 			<div className="new-expense__actions">
+				<button type="button" onClick={onCancel}>
+					Cancel
+				</button>
 				<button type="submit">Add Expense</button>
 			</div>
 		</form>
