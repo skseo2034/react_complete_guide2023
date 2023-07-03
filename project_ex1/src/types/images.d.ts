@@ -1,4 +1,4 @@
-// src/types/images.d.ts
+// src/types/custom.d.ts
 declare module '*.png';
 declare module '*.jpg';
 declare module '*.jpeg';
