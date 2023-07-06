@@ -1,8 +1,8 @@
 export interface UserInputType {
-	'current-savings': string;
-	'yearly-contribution': string;
-	'expected-return': string;
-	duration: string;
+	'current-savings': number;
+	'yearly-contribution': number;
+	'expected-return': number;
+	duration: number;
 }
 
 export interface yearlyDataType {

@@ -4,9 +4,10 @@ import { yearlyDataType } from '../../types/commonTypes';
 import classes from './ResultTable.module.css';
 
 interface Props {
-	yearlyList: yearlyDataType[];
+	data: yearlyDataType[];
+	initialInvestment: number;
 }
-const ResultTable: FC<Props> = ({ yearlyList }) => {
+const ResultTable: FC<Props> = ({ data, initialInvestment }) => {
 	return (
 		<table className={classes.result}>
 			<thead>
@@ -19,8 +20,12 @@ const ResultTable: FC<Props> = ({ yearlyList }) => {
 				</tr>
 			</thead>
 			<tbody>
-				{yearlyList.map(yearlyData => (
-					<ResultTableTr yearlyData={yearlyData} />
+				{data.map(yearlyData => (
+					<ResultTableTr
+						key={yearlyData.year}
+						yearlyData={yearlyData}
+						initialInvestment={initialInvestment}
+					/>
 				))}
 			</tbody>
 		</table>

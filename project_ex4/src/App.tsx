@@ -5,13 +5,13 @@ import { UserInputType, yearlyDataType } from './types/commonTypes';
 import { useState } from 'react';
 
 function App() {
-	const [yearlyList, setYearlyList] = useState<yearlyDataType[]>([]);
+	const [userInput, setuserInput] = useState<UserInputType | null>(null);
 	const calculateHandler = (userInput: UserInputType) => {
-		// Should be triggered when form is submitted
-		// You might not directly want to bind it to the submit event on the form though...
+		setuserInput(userInput);
+	};
+	const yearlyData: yearlyDataType[] = []; // per-year results
 
-		const yearlyData: yearlyDataType[] = []; // per-year results
-
+	if (userInput) {
 		let currentSavings = +userInput['current-savings']; // feel free to change the shape of this input object!
 		const yearlyContribution = +userInput['yearly-contribution']; // as mentioned: feel free to change the shape...
 		const expectedReturn = +userInput['expected-return'] / 100;
@@ -29,21 +29,16 @@ function App() {
 				yearlyContribution: yearlyContribution,
 			});
 		}
+	}
 
-		setYearlyList(yearlyData);
-
-		// do something with yearlyData ...
-	};
 	return (
 		<div>
 			<Header />
 
 			<UserInput onAddYearInvestment={calculateHandler} />
 
-			{/* Todo: Show below table conditionally (only once result data is available) */}
-			{/* Show fallback text if no data is available */}
-
-			<ResultTable yearlyList={yearlyList} />
+			{!userInput && <p style={{ textAlign: 'center' }}>No investment calculated yet.</p>}
+			{userInput && <ResultTable data={yearlyData} initialInvestment={userInput['current-savings']} />}
 		</div>
 	);
 }

@@ -3,16 +3,25 @@ import { yearlyDataType } from '../../types/commonTypes';
 
 interface Props {
 	yearlyData: yearlyDataType;
+	initialInvestment: number;
 }
-const ResultTableTr: FC<Props> = ({ yearlyData }) => {
+
+const formatter = new Intl.NumberFormat('en-US', {
+	style: 'currency',
+	currency: 'USD',
+	minimumFractionDigits: 2,
+	maximumFractionDigits: 2,
+});
+
+const ResultTableTr: FC<Props> = ({ yearlyData, initialInvestment }) => {
 	const { year, yearlyInterest, yearlyContribution, savingsEndOfYear } = yearlyData;
 	return (
 		<tr>
 			<td>{year}</td>
-			<td>{savingsEndOfYear}</td>
-			<td>{yearlyInterest}</td>
-			<td>TOTAL INTEREST GAINED</td>
-			<td>TOTAL INVESTED CAPITAL</td>
+			<td>{formatter.format(savingsEndOfYear)}</td>
+			<td>{formatter.format(yearlyInterest)}</td>
+			<td>{formatter.format(savingsEndOfYear - initialInvestment - yearlyContribution * year)}</td>
+			<td>{formatter.format(initialInvestment + yearlyContribution * year)}</td>
 		</tr>
 	);
 };
