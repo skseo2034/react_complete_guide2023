@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import AddUser from './Components/User/AddUser';
-import UserInfoList from './Components/User/UserInfoList';
+import UsersList from './Components/User/UsersList';
 import { UserInfoType } from './types/commonTypes';
 
 function App() {
@@ -13,10 +13,10 @@ function App() {
 	};
 
 	return (
-		<div style={{ marginLeft: 100 }}>
-			<AddUser onAadUserInfo={addUserList} />
-			<UserInfoList userList={userList} />
-		</div>
+		<>
+			<AddUser onAddUserInfo={addUserList} />
+			<UsersList users={userList} />
+		</>
 	);
 }
 
