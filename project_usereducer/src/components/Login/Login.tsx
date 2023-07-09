@@ -43,26 +43,32 @@ const Login = (props: any) => {
 		};
 	}, []);
 
-	// useEffect(() => {
-	//   const identifier = setTimeout(() => {
-	//     console.log('Checking form validity!');
-	//     setFormIsValid(
-	//       enteredEmail.includes('@') && enteredPassword.trim().length > 6
-	//     );
-	//   }, 500);
+	// const { isValid: emailIsValid } = emailState;
+	// const { isValid: passwordIsValid } = passwordState;
 
-	//   return () => {
-	//     console.log('CLEANUP');
-	//     clearTimeout(identifier);
-	//   };
-	// }, [enteredEmail, enteredPassword]);
+	useEffect(() => {
+		const identifier = setTimeout(() => {
+			console.log('Checking form validity!');
+			// setFormIsValid(enteredEmail.includes('@') && enteredPassword.trim().length > 6);
+			// setFormIsValid(emailState.isValid && passwordState.isValid);
+			// setFormIsValid(emailIsValid && passwordIsValid);
+			setFormIsValid(emailState.isValid && passwordState.isValid);
+		}, 500);
+
+		return () => {
+			console.log('CLEANUP');
+			clearTimeout(identifier);
+		};
+		// }, [emailState, passwordState]); // email 과 password 가 바뀔때 마다 실행된다.
+		// }, [emailIsValid, passwordIsValid]); // email 과 password 가 바뀔때 마다 실행 되는 것을 리팩토링 해서 valid 가 바뀔때 마다 실행 되게 함.
+	}, [emailState.isValid, passwordState.isValid]); // 구조분해 하지 않고 이렇게 사용해도 된다.
 
 	const emailChangeHandler = (event: any) => {
 		// setEnteredEmail(event.target.value);
 
 		dispatchEmail({ type: 'USER_INPUT', val: event.target.value });
 
-		setFormIsValid(event.target.value.includes('@') && passwordState.isValid);
+		// setFormIsValid(event.target.value.includes('@') && passwordState.isValid);
 	};
 
 	const passwordChangeHandler = (event: any) => {
