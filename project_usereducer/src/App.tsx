@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 
 import Login from './components/Login/Login';
 import Home from './components/Home/Home';
@@ -6,7 +6,7 @@ import MainHeader from './components/MainHeader/MainHeader';
 import AuthConext from './store/auth-context';
 
 function App() {
-	const [isLoggedIn, setIsLoggedIn] = useState(false);
+	/*const [isLoggedIn, setIsLoggedIn] = useState(false);
 
 	useEffect(() => {
 		const storedUserLoggedInInformation = localStorage.getItem('isLoggedIn');
@@ -26,16 +26,19 @@ function App() {
 	const logoutHandler = () => {
 		localStorage.removeItem('isLoggedIn');
 		setIsLoggedIn(false);
-	};
+	};*/
 
+	const ctx = useContext(AuthConext);
 	return (
-		<AuthConext.Provider value={{ isLoggedIn: isLoggedIn }}>
-			<MainHeader onLogout={logoutHandler} />
+		/*<AuthConext.Provider value={{ isLoggedIn: isLoggedIn, onLogin: loginHandler, onLogout: logoutHandler }}>*/
+		<>
+			<MainHeader />
 			<main>
-				{!isLoggedIn && <Login onLogin={loginHandler} />}
-				{isLoggedIn && <Home onLogout={logoutHandler} />}
+				{!ctx.isLoggedIn && <Login />}
+				{ctx.isLoggedIn && <Home />}
 			</main>
-		</AuthConext.Provider>
+		</>
+		/*</AuthConext.Provider>*/
 	);
 }
 
