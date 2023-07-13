@@ -1,8 +1,13 @@
-import React from 'react';
+import React, { FC } from 'react';
 import classes from './Cart.module.css';
 import Modal from '../UI/Modal';
 
-const Cart = () => {
+interface Props {
+	onShownCart: () => void;
+	onHideCart: () => void;
+}
+
+const Cart: FC<Props> = ({ onShownCart, onHideCart }) => {
 	/*const cartItems = (
 		<ul>
 			{[{ id: 'c1', name: 'Kimbab', amount: 2, price: 12.99 }].map(item => (
@@ -10,9 +15,11 @@ const Cart = () => {
 			))}
 		</ul>
 	);*/
+
 	const cartItems = [{ id: 'c1', name: 'Kimbab', amount: 2, price: 12.99 }];
+
 	return (
-		<Modal>
+		<Modal onHideCart={onHideCart}>
 			<ul className={classes['cart-items']}>
 				{cartItems.map(item => (
 					<li>item.name</li>
@@ -23,7 +30,9 @@ const Cart = () => {
 				<span>35.62</span>
 			</div>
 			<div className={classes.actions}>
-				<button className={classes['button--alt']}>Close</button>
+				<button className={classes['button--alt']} onClick={onHideCart}>
+					Close
+				</button>
 				<button className={classes.button}>Order</button>
 			</div>
 		</Modal>

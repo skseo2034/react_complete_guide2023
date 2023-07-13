@@ -1,8 +1,9 @@
 import ReactDOM from 'react-dom';
 import classes from './Modal.module.css';
+import { FC } from 'react';
 
-const Backdrop = (props: any) => {
-	return <div className={classes.backdrop} />;
+const Backdrop = (props: { onHideCart: () => void }) => {
+	return <div className={classes.backdrop} onClick={props.onHideCart} />;
 };
 
 const ModalOverlay = (props: { children: React.ReactNode }) => {
@@ -13,13 +14,16 @@ const ModalOverlay = (props: { children: React.ReactNode }) => {
 	);
 };
 
-const Modal = (props: { children: React.ReactNode }) => {
-	console.log('seo111 >>>>>>>>>>>>');
+interface Props {
+	children: React.ReactNode;
+	onHideCart: () => void;
+}
+const Modal: FC<Props> = ({ children, onHideCart }) => {
 	const portalElement = document.getElementById('overlays') as HTMLDivElement;
 	return (
 		<>
-			{ReactDOM.createPortal(<Backdrop />, portalElement)}
-			{ReactDOM.createPortal(<ModalOverlay>{props.children}</ModalOverlay>, portalElement)}
+			{ReactDOM.createPortal(<Backdrop onHideCart={onHideCart} />, portalElement)}
+			{ReactDOM.createPortal(<ModalOverlay>{children}</ModalOverlay>, portalElement)}
 		</>
 	);
 };

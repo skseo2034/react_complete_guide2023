@@ -1,4 +1,4 @@
-import { FC } from 'react';
+import React, { FC } from 'react';
 import classes from './Input.module.css';
 
 interface Props {
@@ -6,13 +6,13 @@ interface Props {
 	input: any;
 }
 
-const Input: FC<Props> = ({ label, input }) => {
+const Input = React.forwardRef((props: { label: string; input: any }, ref) => {
 	return (
 		<div className={classes.input}>
-			<label htmlFor={input.id}>{label}</label>
-			<input {...input} />
+			<label htmlFor={props.input.id}>{props.label}</label>
+			<input ref={ref} {...props.input} />
 		</div>
 	);
-};
+});
 
 export default Input;
