@@ -10,14 +10,14 @@ interface cartItemType {
 interface cartContextType {
 	items: cartItemType[];
 	totalAmount: number;
-	addItem: (item: any) => void;
+	addItem: (item: cartItemType) => void;
 	removeItem: (id: string) => void;
 }
 
 const CartContext = React.createContext<cartContextType>({
 	items: [],
 	totalAmount: 0,
-	addItem: (item: any) => {
+	addItem: (item: cartItemType) => {
 		// dummy
 	},
 	removeItem: (id: string) => {
