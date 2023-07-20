@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import BackwardCounter from './components/BackwardCounter';
 import ForwardCounter from './components/ForwardCounter';
 import NewTask from './components/NewTask/NewTask';
@@ -40,14 +40,28 @@ function App() {
 		}
 		setIsLoading(false);
 	};*/
+	const [tasks, setTasks] = useState<any[]>([]);
 
-	const fetchTasks = useHttp();
+	const { isLoading, error, sendRequest: fetchTasks } = useHttp();
+
 	useEffect(() => {
 		/*fetchTasks('').then(r => {
 			// dummy
 		});*/
-		fetchTasks();
-	}, []);
+		const tranfromTasks = (taskObj: any) => {
+			const loadedTasks = [];
+			for (const taskKey in taskObj) {
+				loadedTasks.push({ id: taskKey, text: taskObj[taskKey].text });
+			}
+
+			setTasks(loadedTasks);
+		};
+		fetchTasks({ url: 'https://react-http-93000-default-rtdb.firebaseio.com/tasks.json' }, tranfromTasks).then(
+			r => {
+				// dummy.
+			}
+		);
+	}, [fetchTasks]);
 
 	const taskAddHandler = (task: any) => {
 		setTasks(prevTasks => prevTasks.concat(task));
