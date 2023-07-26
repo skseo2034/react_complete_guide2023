@@ -12,6 +12,7 @@ interface cartContextType {
 	totalAmount: number;
 	addItem: (item: cartItemType) => void;
 	removeItem: (id: string) => void;
+	clearCart: () => void;
 }
 
 const CartContext = React.createContext<cartContextType>({
@@ -22,6 +23,9 @@ const CartContext = React.createContext<cartContextType>({
 	},
 	removeItem: (id: string) => {
 		// dummty
+	},
+	clearCart: () => {
+		// dummy
 	},
 });
 
