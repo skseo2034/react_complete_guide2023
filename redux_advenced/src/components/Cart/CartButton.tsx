@@ -9,7 +9,7 @@ const CartButton = (props: any) => {
 
 	const toggleCartHandler = () => {
 		console.log('toggleCartHandler click');
-		dispatch(uiActions.toggler());
+		dispatch(uiActions.toggler(''));
 	};
 
 	return (
