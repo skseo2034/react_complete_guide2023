@@ -5,7 +5,8 @@ import cartSlice from '../../store/cart-slice';
 
 const CartButton = (props: any) => {
 	const dispatch = useDispatch();
-	const cartQuantity = useSelector((state: any) => state.cart.totoalQuantity);
+	const cartQuantity = useSelector((state: any) => state.cart.totalQuantity);
+	console.log('cartQuantity', cartQuantity);
 
 	const toggleCartHandler = () => {
 		console.log('toggleCartHandler click');

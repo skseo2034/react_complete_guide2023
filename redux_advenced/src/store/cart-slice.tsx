@@ -1,5 +1,4 @@
 import { Actions, createSlice, Dispatch, SliceCaseReducers } from '@reduxjs/toolkit';
-import { uiActions } from './ui-slice';
 
 interface itemType {
 	id: string;
@@ -11,16 +10,30 @@ interface itemType {
 
 interface initialSateType {
 	items: itemType[];
-	totoalQuantity: number;
+	totalQuantity: number;
 	totalAmount: number;
+	changed: boolean;
 }
 
 const cartSlice = createSlice<initialSateType, SliceCaseReducers<any>, string>({
 	name: 'cart',
-	initialState: { items: [], totoalQuantity: 0, totalAmount: 0 },
+	initialState: {
+		items: [],
+		totalQuantity: 0,
+		totalAmount: 0,
+		changed: false,
+	},
+
 	reducers: {
+		replaceCart(state, action) {
+			state.totalQuantity = action.payload.totalQuantity;
+			state.items = action.payload.items;
+		},
 		addItemToCart(state, action) {
-			state.totoalQuantity++;
+			console.log('addItemToCart running');
+			console.log('addItemToCart', state.items);
+			state.totalQuantity++;
+			state.changed = true;
 			// 하나씩 추가
 			const newItem = action.payload;
 			const exitingItem = state.items.find((item: itemType) => item.id === newItem.id);
@@ -38,7 +51,9 @@ const cartSlice = createSlice<initialSateType, SliceCaseReducers<any>, string>({
 			}
 		},
 		removeItemFromCart(state, action) {
-			state.totoalQuantity--;
+			console.log('removeItemFromCart running');
+			state.totalQuantity--;
+			state.changed = true;
 			// 하나씩 제거
 			const id = action.payload;
 			const exitingItem = state.items.find((item: itemType) => item.id === id);
@@ -51,50 +66,6 @@ const cartSlice = createSlice<initialSateType, SliceCaseReducers<any>, string>({
 		},
 	},
 });
-
-export const sendCartData = (cart: any) => {
-	return async (dispatch: any) => {
-		dispatch(
-			uiActions.showNotifaction({
-				status: 'pending',
-				title: 'Sending...',
-				message: 'Sending cart data!',
-			})
-		);
-
-		const sendRequest = async () => {
-			const response = await fetch('https://react-http-93000-default-rtdb.firebaseio.com/cart.json', {
-				method: 'PUT',
-				body: JSON.stringify(cart),
-			});
-
-			if (!response.ok) {
-				console.log('throw error');
-				throw new Error('Sending cart data failed!');
-			}
-		};
-
-		try {
-			await sendRequest();
-		} catch (error: any) {
-			dispatch(
-				uiActions.showNotifaction({
-					status: 'error',
-					title: 'Error!',
-					message: error.message, // 'Sending cart data failed!'
-				})
-			);
-		}
-
-		dispatch(
-			uiActions.showNotifaction({
-				status: 'success',
-				title: 'Success!',
-				message: 'Sent cart data successfully!',
-			})
-		);
-	};
-};
 
 export const cartActions = cartSlice.actions;
 
