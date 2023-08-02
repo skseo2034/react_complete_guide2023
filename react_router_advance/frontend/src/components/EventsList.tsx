@@ -1,6 +1,11 @@
 import classes from './EventsList.module.css';
+import { FC } from 'react';
 
-function EventsList(events: any) {
+interface Props {
+	events: any[];
+}
+
+const EventsList: FC<Props> = ({ events }) => {
 	return (
 		<div className={classes.events}>
 			<h1>All Events</h1>
@@ -19,6 +24,6 @@ function EventsList(events: any) {
 			</ul>
 		</div>
 	);
-}
+};
 
 export default EventsList;

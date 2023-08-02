@@ -29,6 +29,9 @@ import EditEventPage from './pages/EditEvent';
 import RootLayout from './pages/Root';
 import EventsRootLayout from './pages/EventsRoot';
 
+const apiUrl = process.env.REACT_APP_API_URL;
+const apiPort = process.env.REACT_APP_PORT;
+
 const router = createBrowserRouter([
 	{
 		path: '/',
@@ -39,7 +42,23 @@ const router = createBrowserRouter([
 				path: 'events',
 				element: <EventsRootLayout />,
 				children: [
-					{ index: true, element: <EventsPage /> },
+					{
+						index: true,
+						element: <EventsPage />,
+						loader: async () => {
+							const response = await fetch(`${apiUrl}:${apiPort}/events`);
+							// const response = await fetch('/api/teachCostExpectedList'); proxy 사용할때 이렇게
+							// const response = await fetch('http://local.xxxx.xxxx.com/api/xxxx');
+							console.log('seo 1111>>>>>>>>>>>>>>>> ', response);
+							if (!response.ok) {
+								// dummy ....
+							} else {
+								const resData = await response.json();
+								console.log('seo >>>>>>>>>>>>>>>> ', response);
+								return resData.events;
+							}
+						},
+					},
 					{ path: ':eventId', element: <EventDetailPage /> },
 					{ path: 'new', element: <NewEventPage /> },
 					{ path: ':eventId/edit', element: <EditEventPage /> },

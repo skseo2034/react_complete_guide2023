@@ -1,23 +1,45 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
-
-const DUMMY_EVENTS = [
-	{ id: 'e1', title: 'Some event' },
-	{ id: 'e2', title: 'Another event' },
-];
+import React, { useEffect, useState } from 'react';
+import { Link, useLoaderData } from 'react-router-dom';
+import EventsList from '../components/EventsList';
+import { useSelector } from 'react-redux';
 
 const EventsPage = () => {
+	const events = useLoaderData() as any[];
+	/*const [isLoading, setIsLoading] = useState(false);
+	const [fetchedEvents, setFetchedEvents] = useState<any[]>([]);
+	const [error, setError] = useState<any>();*/
+	/*const apiUrl = process.env.REACT_APP_API_URL;
+	const apiPort = process.env.REACT_APP_PORT;*/
+	// const apiUrl = useSelector((state: any) => state.env.apiUrl);
+	// const apiPort = useSelector((state: any) => state.env.apiPort);
+	//	console.log('seo >>>>>>>>>>>', process.env.REACT_APP_SEO);
+
+	/*useEffect(() => {
+		async function fetchEvents() {
+			setIsLoading(true);
+			/!*const response = await fetch(`${apiUrl}:${apiPort}/events`);
+
+			if (!response.ok) {
+				setError('Fetching events failed.');
+			} else {
+				const resData = await response.json();
+				setFetchedEvents(resData.events);
+			}*!/
+			setIsLoading(false);
+		}
+
+		fetchEvents().then(r => {
+			//dummy
+		});
+	}, []);*/
 	return (
 		<>
-			<h1>Events Page</h1>
-			<ul>
-				{DUMMY_EVENTS.map(event => (
-					<li key={event.id}>
-						{/*<Link to={`/evnets/${event.id}`}>{event.title}</Link>*/}
-						<Link to={event.id}>{event.title}</Link> {/* 현재 활성화된 경로 다음에 붙는다.*/}
-					</li>
-				))}
-			</ul>
+			{/*<div style={{ textAlign: 'center' }}>
+				{isLoading && <p>Loading...</p>}
+				{error && <p>{error}</p>}
+			</div>*/}
+			{/*{!isLoading && fetchedEvents && <EventsList events={fetchedEvents} />}*/}
+			<EventsList events={events} />
 		</>
 	);
 };
