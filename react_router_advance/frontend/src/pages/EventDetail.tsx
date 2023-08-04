@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { json, useParams } from 'react-router-dom';
+import { json, useLoaderData, useParams, useRouteLoaderData } from 'react-router-dom';
 import EventItem from '../components/EventItem';
 
 const apiUrl = process.env.REACT_APP_API_URL;
@@ -14,8 +14,8 @@ interface EventType {
 }
 
 const EventDetailPage = () => {
-	const params = useParams();
-	const [event, setEvent] = useState<EventType | null>(null);
+	// const params = useParams();
+	// const [event, setEvent] = useState<EventType | null>(null);
 
 	/*const getEventDetail = async () => {
 		const response = await fetch(`${apiUrl}:${apiPort}/events/${params.eventId}`);
@@ -29,11 +29,11 @@ const EventDetailPage = () => {
 		setEvent(data.event);
 	};*/
 
-	useEffect(() => {
+	/*useEffect(() => {
 		console.log('getEventDetail useEffect running');
-		/*getEventDetail().then(r => {
+		/!*getEventDetail().then(r => {
 			// ... dummy
-		});*/
+		});*!/
 		const getEventDetail = async () => {
 			const response = await fetch(`${apiUrl}:${apiPort}/events/${params.eventId}`);
 			console.log('response', response);
@@ -51,15 +51,22 @@ const EventDetailPage = () => {
 		getEventDetail().then(r => {
 			console.log('seo222 >>>>>>>>>>>> ', event);
 		});
-	}, []);
+	}, []);*/
 
-	return (
-		<>
-			<h1>Event Detail Page </h1>
-			{/*<p>event id : {params.eventId}</p>*/}
-			{event && <EventItem event={event} />}
-		</>
-	);
+	const data = useRouteLoaderData('event-detail') as any;
+	/*return <>{event && <EventItem event={event} />}</>;*/
+	return <EventItem event={data.event} />;
 };
 
 export default EventDetailPage;
+
+export const loader = async ({ request, params }: { request: any; params: any }) => {
+	const eventId = params.eventId;
+	const response = await fetch(`${apiUrl}:${apiPort}/events/${eventId}`);
+
+	if (!response.ok) {
+		throw json({ message: 'Could not fetch details for selected event.' }, { status: 500 });
+	} else {
+		return response;
+	}
+};
