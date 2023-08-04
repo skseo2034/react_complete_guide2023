@@ -1,10 +1,22 @@
 import React, { useEffect, useState } from 'react';
-import { Link, useLoaderData } from 'react-router-dom';
+import { json, Link, useLoaderData } from 'react-router-dom';
 import EventsList from '../components/EventsList';
 import { useSelector } from 'react-redux';
 
+interface seoType {
+	events: any[];
+	isError: boolean;
+	message: string;
+}
+
 const EventsPage = () => {
-	const events = useLoaderData() as any[];
+	// const data = useLoaderData() as ReturnType<any>; // { events: any[] | isError: string };
+	const data = useLoaderData() as seoType;
+	/*if (data.isError) {
+		return <p>{data.message}</p>;
+	}*/
+
+	const events = data.events;
 	/*const [isLoading, setIsLoading] = useState(false);
 	const [fetchedEvents, setFetchedEvents] = useState<any[]>([]);
 	const [error, setError] = useState<any>();*/
@@ -45,3 +57,20 @@ const EventsPage = () => {
 };
 
 export default EventsPage;
+
+const apiUrl = process.env.REACT_APP_API_URL;
+const apiPort = process.env.REACT_APP_PORT;
+
+export const loader = async () => {
+	const response = await fetch(`${apiUrl}:${apiPort}/events`);
+
+	if (!response.ok) {
+		// return { isError: true, message: 'Could not fetch events.' };
+		// throw new Response(JSON.stringify({ message: 'Could not fetch events.' }), { status: 500 });
+		throw json({ message: 'Could not fetch events.' }, { status: 500 });
+	} else {
+		// const data = await response.json();
+		// return data.events;
+		return response;
+	}
+};

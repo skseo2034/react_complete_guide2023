@@ -1,5 +1,6 @@
 import classes from './EventsList.module.css';
 import { FC } from 'react';
+import { Link } from 'react-router-dom';
 
 interface Props {
 	events: any[];
@@ -12,13 +13,15 @@ const EventsList: FC<Props> = ({ events }) => {
 			<ul className={classes.list}>
 				{events.map((event: any) => (
 					<li key={event.id} className={classes.item}>
-						<a href="...">
+						{/*Link to={`/events/${event.id}`}>*/}
+						{/*이렇게 해도 된다. events 의 하위경로 이므로 상태경로를 지정해도 된다.*/}
+						<Link to={event.id}>
 							<img src={event.image} alt={event.title} />
 							<div className={classes.content}>
 								<h2>{event.title}</h2>
 								<time>{event.date}</time>
 							</div>
-						</a>
+						</Link>
 					</li>
 				))}
 			</ul>

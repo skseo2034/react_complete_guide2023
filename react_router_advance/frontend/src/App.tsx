@@ -22,12 +22,13 @@
 
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import HomePage from './pages/Home';
-import EventsPage from './pages/Events';
+import EventsPage, { loader as eventsLoader } from './pages/Events';
 import EventDetailPage from './pages/EventDetail';
 import NewEventPage from './pages/NewEvent';
 import EditEventPage from './pages/EditEvent';
 import RootLayout from './pages/Root';
 import EventsRootLayout from './pages/EventsRoot';
+import ErrorPage from './pages/Error';
 
 const apiUrl = process.env.REACT_APP_API_URL;
 const apiPort = process.env.REACT_APP_PORT;
@@ -36,6 +37,7 @@ const router = createBrowserRouter([
 	{
 		path: '/',
 		element: <RootLayout />,
+		errorElement: <ErrorPage />,
 		children: [
 			{ index: true, element: <HomePage /> }, // path:'' 과 동일
 			{
@@ -45,19 +47,23 @@ const router = createBrowserRouter([
 					{
 						index: true,
 						element: <EventsPage />,
-						loader: async () => {
+						// 이렇게 해도 되나. 이것뿐아니라 다른것도 추가 하다 보면 파일 커진다.
+						// 일반적은 패턴은 로더하는 파일에 추가하는 것이다.
+						// 즉, EventsPage 에 추가하는 것이다.
+						// 페이지를 불러오기 전(로딩되전)에 데이터를 loader 한다.
+						loader: eventsLoader,
+						/*async () => {
 							const response = await fetch(`${apiUrl}:${apiPort}/events`);
 							// const response = await fetch('/api/teachCostExpectedList'); proxy 사용할때 이렇게
 							// const response = await fetch('http://local.xxxx.xxxx.com/api/xxxx');
-							console.log('seo 1111>>>>>>>>>>>>>>>> ', response);
+
 							if (!response.ok) {
 								// dummy ....
 							} else {
 								const resData = await response.json();
-								console.log('seo >>>>>>>>>>>>>>>> ', response);
 								return resData.events;
 							}
-						},
+						},*/
 					},
 					{ path: ':eventId', element: <EventDetailPage /> },
 					{ path: 'new', element: <NewEventPage /> },
