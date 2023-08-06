@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { json, useLoaderData, useParams, useRouteLoaderData } from 'react-router-dom';
+import { json, redirect, useLoaderData, useParams, useRouteLoaderData } from 'react-router-dom';
 import EventItem from '../components/EventItem';
 
 const apiUrl = process.env.REACT_APP_API_URL;
@@ -69,4 +69,17 @@ export const loader = async ({ request, params }: { request: any; params: any })
 	} else {
 		return response;
 	}
+};
+
+export const action = async ({ request, params }: { request: any; params: any }) => {
+	const eventId = params.eventId;
+	const response = await fetch(`${apiUrl}:${apiPort}/events/${eventId}`, {
+		method: request.method, // 'DELETE',
+	});
+
+	if (!response.ok) {
+		throw json({ message: 'Could not delete event' }, { status: 500 });
+	}
+
+	return redirect('/events');
 };

@@ -1,4 +1,4 @@
-import { useNavigate } from 'react-router-dom';
+import { Form, useNavigate, useNavigation } from 'react-router-dom';
 
 import classes from './EventForm.module.css';
 
@@ -10,15 +10,26 @@ interface EventType {
 	image: string;
 }
 
-const EventForm = (props: { event: EventType }) => {
+const EventForm = (props: { event: EventType | undefined }) => {
 	const navigate = useNavigate();
-	function cancelHandler() {
+	const navigation = useNavigation();
+
+	// 이 값을 활용해서 사용자가 여러번 저장 버튼을 누르는 것을 방지 할 수 있다.
+	const isSubmitting = navigation.state === 'submitting';
+
+	const cancelHandler = () => {
 		navigate('..');
-	}
+	};
 	const { event } = props;
-	console.log('EditForm event', props.event);
+	/*let event;
+	if (props) {
+		event = props.event;
+		console.log('EditForm event', props.event);
+	}*/
+
 	return (
-		<form className={classes.form}>
+		// Form 을 사용하면 백엔드로 보니지 않고 추가한 action 으로 요청을 보내다.
+		<Form method="post" className={classes.form}>
 			<p>
 				<label htmlFor="title">Title</label>
 				<input id="title" type="text" name="title" required defaultValue={event ? event.title : ''} />
@@ -42,12 +53,12 @@ const EventForm = (props: { event: EventType }) => {
 				/>
 			</p>
 			<div className={classes.actions}>
-				<button type="button" onClick={cancelHandler}>
-					Cancel
+				<button type="button" onClick={cancelHandler} disabled={isSubmitting}>
+					{isSubmitting ? 'Submitting...' : 'Cancel'}
 				</button>
-				<button>Save</button>
+				<button disabled={isSubmitting}>{isSubmitting ? 'Submitting...' : 'Save'}</button>
 			</div>
-		</form>
+		</Form>
 	);
 };
 

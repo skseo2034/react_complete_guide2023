@@ -1,6 +1,6 @@
 import classes from './EventItem.module.css';
 import { FC, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useSubmit } from 'react-router-dom';
 
 interface EventType {
 	id: string;
@@ -15,10 +15,16 @@ interface PropsType {
 }
 
 const EventItem: FC<PropsType> = ({ event }) => {
-	console.log('event1111', event.id);
-	function startDeleteHandler() {
-		// ...
-	}
+	const submit = useSubmit();
+
+	const startDeleteHandler = () => {
+		const proceed = window.confirm('Are you sure?');
+
+		if (proceed) {
+			// submit({}, {}); // 첫번째 인자 제출하고 싶은 데이터, 두번째 form 에 설정하는 데이터
+			submit(null, { method: 'delete' });
+		}
+	};
 
 	return (
 		<article className={classes.event}>

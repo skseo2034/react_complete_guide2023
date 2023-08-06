@@ -1,11 +1,1 @@
-{
-  "events": [
-    {
-      "id": "e1",
-      "title": "A dummy event",
-      "date": "2023-02-22",
-      "image": "https://blog.hubspot.de/hubfs/Germany/Blog_images/Optimize_Marketing%20Events%20DACH%202021.jpg",
-      "description": "Join this amazing event and connect with fellow developers."
-    }
-  ]
-}
+{"events":[{"title":"A new Event","image":"https://cdn.vox-cdn.com/thumbor/OCmxb6bfIRV5JneDqotDWQwzEe4=/0x0:3000x2000/1200x800/filters:focal(1514x620:1994x1100)/cdn.vox-cdn.com/uploads/chorus_image/image/69432612/GettyImages_1233208287_copy.0.jpg","date":"2023-08-06","description":"Some awesome event!","id":"e1daf8cd-ca0b-451a-83ed-38730d8c9d15"},{"title":"A new Event","image":"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQqofGVlqQONkX26S2FYN9IVjBDBlHqs8TvZg&usqp=CAU","date":"2023-08-06","description":"Some awesome event!","id":"f19f94c9-773e-4c9f-b881-300a9c682d5d"},{"title":"A new event 2","image":"https://www.pcma.org/wp-content/uploads/2020/12/Covening-Asia-Pacific-Sydney-1.jpg","date":"2023-08-01","description":"A new event 2","id":"45e8c223-9d6a-4116-b55d-b36d5e542c7c"},{"id":"e1","title":"A dummy event","date":"2023-02-22","image":"https://blog.hubspot.de/hubfs/Germany/Blog_images/Optimize_Marketing%20Events%20DACH%202021.jpg","description":"Join this amazing event and connect with fellow developers."}]}
