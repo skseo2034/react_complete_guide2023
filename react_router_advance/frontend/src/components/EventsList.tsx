@@ -7,6 +7,7 @@ interface Props {
 }
 
 const EventsList: FC<Props> = ({ events }) => {
+	console.log('seo444 >>>>>>>>>>>>>>>> ', events);
 	return (
 		<div className={classes.events}>
 			<h1>All Events</h1>
@@ -15,7 +16,7 @@ const EventsList: FC<Props> = ({ events }) => {
 					<li key={event.id} className={classes.item}>
 						{/*Link to={`/events/${event.id}`}>*/}
 						{/*이렇게 해도 된다. events 의 하위경로 이므로 상태경로를 지정해도 된다.*/}
-						<Link to={event.id}>
+						<Link to={`/events/${event.id}`}>
 							<img src={event.image} alt={event.title} />
 							<div className={classes.content}>
 								<h2>{event.title}</h2>

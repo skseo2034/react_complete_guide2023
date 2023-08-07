@@ -1,6 +1,7 @@
-import React, { useEffect, useState } from 'react';
-import { json, redirect, useLoaderData, useParams, useRouteLoaderData } from 'react-router-dom';
+import React, { useEffect, useState, Suspense } from 'react';
+import { Await, defer, json, redirect, useLoaderData, useParams, useRouteLoaderData } from 'react-router-dom';
 import EventItem from '../components/EventItem';
+import EventsList from '../components/EventsList';
 
 const apiUrl = process.env.REACT_APP_API_URL;
 const apiPort = process.env.REACT_APP_PORT;
@@ -14,7 +15,6 @@ interface EventType {
 }
 
 const EventDetailPage = () => {
-	// const params = useParams();
 	// const [event, setEvent] = useState<EventType | null>(null);
 
 	/*const getEventDetail = async () => {
@@ -53,22 +53,63 @@ const EventDetailPage = () => {
 		});
 	}, []);*/
 
-	const data = useRouteLoaderData('event-detail') as any;
+	// const data = useRouteLoaderData('event-detail') as any;
+	const { event, events } = useRouteLoaderData('event-detail') as any;
 	/*return <>{event && <EventItem event={event} />}</>;*/
-	return <EventItem event={data.event} />;
+	return (
+		<>
+			<Suspense fallback={<p style={{ textAlign: 'center' }}>Loading...</p>}>
+				<Await resolve={event}>{loadEvent => <EventItem event={loadEvent} />}</Await>
+				<Await resolve={events}>{loadEvents => <EventsList events={loadEvents} />}</Await>
+				{/*<EventItem event={data.event} />;*/}
+			</Suspense>
+		</>
+	);
 };
 
 export default EventDetailPage;
 
-export const loader = async ({ request, params }: { request: any; params: any }) => {
-	const eventId = params.eventId;
+const loadEvent = async (eventId: string) => {
 	const response = await fetch(`${apiUrl}:${apiPort}/events/${eventId}`);
 
 	if (!response.ok) {
 		throw json({ message: 'Could not fetch details for selected event.' }, { status: 500 });
 	} else {
-		return response;
+		const data = await response.json();
+		return data.event;
 	}
+};
+
+const loadEvents = async () => {
+	const response = await fetch(`${apiUrl}:${apiPort}/events`);
+	console.log('seo222 >>>>>>>>>>>>> ', response);
+	if (!response.ok) {
+		// return { isError: true, message: 'Could not fetch events.' };
+		// throw new Response(JSON.stringify({ message: 'Could not fetch events.' }), { status: 500 });
+		throw json({ message: 'Could not fetch events.' }, { status: 500 });
+	} else {
+		const data = await response.json();
+
+		return data.events;
+		// return response;
+	}
+};
+
+export const loader = async ({ request, params }: { request: any; params: any }) => {
+	const eventId = params.eventId;
+	console.log('seo333 >>>>>>>>>>>>> ', eventId);
+
+	return defer({
+		event: await loadEvent(eventId), // await 를 추가 함으로써 아래 events list 가 나오기 까지 기다린다.
+		events: loadEvents(),
+	});
+	// const response = await fetch(`${apiUrl}:${apiPort}/events/${eventId}`);
+	//
+	// if (!response.ok) {
+	// 	throw json({ message: 'Could not fetch details for selected event.' }, { status: 500 });
+	// } else {
+	// 	return response;
+	// }
 };
 
 export const action = async ({ request, params }: { request: any; params: any }) => {
