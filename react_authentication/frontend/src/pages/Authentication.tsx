@@ -54,6 +54,9 @@ export const action = async ({ request }: { request: any }) => {
 	const token = resData.token;
 	// 토큰저장.
 	localStorage.setItem('token', token);
+	const expiration = new Date();
+	expiration.setHours(expiration.getHours() + 1);
+	localStorage.setItem('expiration', expiration.toISOString());
 
 	return redirect('/');
 };
