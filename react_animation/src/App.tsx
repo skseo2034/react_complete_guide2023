@@ -9,7 +9,7 @@ import List from './components/List/List';
 const App = () => {
 	const [modalIsOpen, setModalIsOpen] = useState(false);
 	const [showBlock, setShowBlock] = useState(false);
-	// const nodeRef = useRef(null);
+	const nodeRef = useRef(null);
 
 	const showModal = () => {
 		setModalIsOpen(true);
@@ -30,9 +30,22 @@ const App = () => {
 				Toggle
 			</button>
 			<br />
-			{/*<Transition in={showBlock} timeout={300} mountOnEnter unmountOnExit>
+			<Transition
+				nodeRef={nodeRef}
+				in={showBlock}
+				timeout={300}
+				mountOnEnter
+				unmountOnExit
+				onEnter={() => console.log('onEnter')}
+				onEntering={() => console.log('onEntering')}
+				onEntered={() => console.log('onEntered')}
+				onExit={() => console.log('onExit')}
+				onExiting={() => console.log('onExiting')}
+				onExited={() => console.log('onExited')}
+			>
 				{state => (
 					<div
+						ref={nodeRef}
 						style={{
 							backgroundColor: 'red',
 							width: 100,
@@ -43,7 +56,7 @@ const App = () => {
 						}}
 					></div>
 				)}
-			</Transition>*/}
+			</Transition>
 			{/*<Transition nodeRef={nodeRef} in={modalIsOpen} timeout={300} mountOnEnter unmountOnExit>
 				{state => <Modal show={state} closed={closeModal} />}
 			</Transition>*/}

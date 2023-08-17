@@ -2,6 +2,7 @@ import React, { useRef } from 'react';
 import Transition from 'react-transition-group/Transition';
 
 import './Modal.css';
+import CSSTransition from 'react-transition-group/CSSTransition';
 
 const animationTiming = {
 	enter: 400,
@@ -13,7 +14,7 @@ const Modal = (props: { closed: () => void; show: boolean }) => {
 	console.log('Modal', props);
 
 	return (
-		<Transition in={props.show} timeout={animationTiming} mountOnEnter unmountOnExit>
+		/*<Transition in={props.show} timeout={animationTiming} mountOnEnter unmountOnExit>
 			{state => {
 				const cssClasses = [
 					'Modal',
@@ -28,7 +29,28 @@ const Modal = (props: { closed: () => void; show: boolean }) => {
 					</div>
 				);
 			}}
-		</Transition>
+		</Transition>*/
+		<CSSTransition
+			nodeRef={nodeRef}
+			in={props.show}
+			timeout={animationTiming}
+			mountOnEnter
+			unmountOnExit
+			/*classNames="fade-slide"*/
+			classNames={{
+				enter: '',
+				enterActive: 'ModalOpen',
+				exit: '',
+				exitActive: 'ModalClosed',
+			}}
+		>
+			<div ref={nodeRef} className="Modal">
+				<h1>A Modal</h1>
+				<button className="Button" onClick={props.closed}>
+					Dismiss
+				</button>
+			</div>
+		</CSSTransition>
 	);
 };
 
