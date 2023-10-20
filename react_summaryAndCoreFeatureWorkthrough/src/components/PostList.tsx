@@ -6,12 +6,15 @@ import Modal from './Modal';
 import { useEffect, useState } from 'react';
 const PostList = ({ isPosting, onStopPosting }: { isPosting: boolean; onStopPosting: () => void }) => {
 	const [posts, setPosts] = useState<any[]>([]);
+	const [isFetching, setIsFetching] = useState(false);
 
 	useEffect(() => {
 		async function getPosts() {
+			setIsFetching(true);
 			const response = await fetch('http://localhost:8080/posts');
 			const resData = await response.json();
 			setPosts(resData);
+			setIsFetching(false);
 		}
 
 		getPosts().then(res => {
@@ -48,19 +51,20 @@ const PostList = ({ isPosting, onStopPosting }: { isPosting: boolean; onStopPost
 			) : null}
 
 			{/*{modalContent}*/}
-			{posts.length > 0 && (
+			{!isFetching && posts.length > 0 && (
 				<ul className={classes.posts}>
 					{posts.map(post => (
 						<Post key={post.body} author={post.author} body={post.body} />
 					))}
 				</ul>
 			)}
-			{posts.length === 0 && (
+			{!isFetching && posts.length === 0 && (
 				<div style={{ textAlign: 'center', color: 'white' }}>
 					<h2>There are no posts yet.</h2>
 					<p>Start adding some!</p>
 				</div>
 			)}
+			{isFetching && <p style={{ textAlign: 'center', color: 'white' }}>Loading posts....</p>}
 		</>
 	);
 };
