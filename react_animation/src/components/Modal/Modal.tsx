@@ -1,19 +1,20 @@
 import React, { useRef } from 'react';
-import Transition from 'react-transition-group/Transition';
+// import Transition from 'react-transition-group/Transition';
 
 import './Modal.css';
-import CSSTransition from 'react-transition-group/CSSTransition';
+// import CSSTransition from 'react-transition-group/CSSTransition';
 
 const animationTiming = {
 	enter: 400,
 	exit: 1000,
 };
 
-const Modal = (props: { closed: () => void; show: boolean }) => {
+const Modal = () => {
 	const nodeRef = useRef<HTMLDivElement | null>(null);
-	console.log('Modal', props);
+	// console.log('Modal', props);
 
 	return (
+		<></>
 		/*<Transition in={props.show} timeout={animationTiming} mountOnEnter unmountOnExit>
 			{state => {
 				const cssClasses = [
@@ -30,13 +31,13 @@ const Modal = (props: { closed: () => void; show: boolean }) => {
 				);
 			}}
 		</Transition>*/
-		<CSSTransition
+		/*<CSSTransition
 			nodeRef={nodeRef}
-			in={props.show}
+			//in={props.show}
 			timeout={animationTiming}
 			mountOnEnter
 			unmountOnExit
-			/*classNames="fade-slide"*/
+			/!*classNames="fade-slide"*!/
 			classNames={{
 				enter: '',
 				enterActive: 'ModalOpen',
@@ -46,11 +47,11 @@ const Modal = (props: { closed: () => void; show: boolean }) => {
 		>
 			<div ref={nodeRef} className="Modal">
 				<h1>A Modal</h1>
-				<button className="Button" onClick={props.closed}>
+				{/!*<button className="Button" onClick={props.closed}>
 					Dismiss
-				</button>
+				</button>*!/}
 			</div>
-		</CSSTransition>
+		</CSSTransition>*/
 	);
 };
 

@@ -1,5 +1,5 @@
 import classes from './Post.module.css';
-import NewPost from './NewPost';
+import NewPost from '../routes/NewPost';
 const Post = ({ author, body }: { author: string; body: string }) => {
 	return (
 		<li className={classes.post}>

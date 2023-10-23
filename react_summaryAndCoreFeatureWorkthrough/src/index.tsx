@@ -1,10 +1,10 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import App from './App';
+import Posts from './routes/Posts';
 import './index.css';
 import { Provider } from 'react-redux';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
-import NewPost from './components/NewPost';
+import NewPost from './routes/NewPost';
 import RootLayout from './routes/RootLayout';
 
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement);
@@ -13,7 +13,7 @@ const router = createBrowserRouter([
 		path: '/',
 		element: <RootLayout />,
 		children: [
-			{ path: '/', element: <App /> },
+			{ path: '/', element: <Posts /> },
 			{
 				path: '/create-post',
 				element: (
@@ -33,6 +33,6 @@ const router = createBrowserRouter([
 root.render(
 	<React.StrictMode>
 		<RouterProvider router={router} />
-		<App />
+		<Posts />
 	</React.StrictMode>
 );

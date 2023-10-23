@@ -1,10 +1,10 @@
 import Post from './Post';
 
 import classes from './PostList.module.css';
-import NewPost from './NewPost';
+import NewPost from '../routes/NewPost';
 import Modal from './Modal';
 import { useEffect, useState } from 'react';
-const PostList = ({ isPosting, onStopPosting }: { isPosting: boolean; onStopPosting: () => void }) => {
+const PostList = () => {
 	const [posts, setPosts] = useState<any[]>([]);
 	const [isFetching, setIsFetching] = useState(false);
 
@@ -44,11 +44,11 @@ const PostList = ({ isPosting, onStopPosting }: { isPosting: boolean; onStopPost
 
 	return (
 		<>
-			{isPosting ? (
+			{/*{isPosting ? (
 				<Modal onClose={onStopPosting}>
 					<NewPost onCancel={onStopPosting} onAddPost={addPostHandler} />
 				</Modal>
-			) : null}
+			) : null}*/}
 
 			{/*{modalContent}*/}
 			{!isFetching && posts.length > 0 && (
