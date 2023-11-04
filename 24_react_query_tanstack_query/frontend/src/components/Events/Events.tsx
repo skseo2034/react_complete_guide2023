@@ -1,9 +1,9 @@
 import { Link, Outlet } from 'react-router-dom';
 
-import Header from '../Header.js';
-import EventsIntroSection from './EventsIntroSection.js';
-import FindEventSection from './FindEventSection.js';
-import NewEventsSection from './NewEventsSection.js';
+import Header from '../Header';
+import EventsIntroSection from './EventsIntroSection';
+import FindEventSection from './FindEventSection';
+import NewEventsSection from './NewEventsSection';
 
 export default function Events() {
 	return (

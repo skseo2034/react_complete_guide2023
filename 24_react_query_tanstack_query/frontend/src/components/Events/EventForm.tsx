@@ -1,6 +1,6 @@
 import { useState } from 'react';
 
-import ImagePicker from '../ImagePicker.js';
+import ImagePicker from '../ImagePicker';
 
 export default function EventForm({
 	inputData,
