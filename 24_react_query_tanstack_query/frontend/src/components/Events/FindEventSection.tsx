@@ -7,11 +7,13 @@ import EventItem from './EventItem';
 
 export default function FindEventSection() {
 	const searchElement = useRef<HTMLInputElement>(null);
-	const [searchTerm, setSearchTerm] = useState<string | undefined>('');
+	const [searchTerm, setSearchTerm] = useState<string | undefined>();
 
-	const { data, isPending, isError, error } = useQuery({
+	const { data, isLoading, isPending, isError, error } = useQuery({
 		queryKey: ['events', { search: searchTerm }],
-		queryFn: () => fetchEvents(searchTerm),
+		//queryFn: ({ signal }) => fetchEvents({ signal, searchTerm }),
+		queryFn: () => fetchEvents({ searchTerm }),
+		enabled: searchTerm !== undefined,
 	});
 
 	function handleSubmit(event: any) {
@@ -21,7 +23,7 @@ export default function FindEventSection() {
 
 	let content = <p>Please enter a search term and to find events.</p>;
 
-	if (isPending) {
+	if (isLoading) {
 		content = <LoadingIndicator />;
 	}
 
