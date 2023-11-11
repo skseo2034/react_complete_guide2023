@@ -1,5 +1,9 @@
+import { QueryClient } from '@tanstack/react-query';
+
 //export async function fetchEvents({ signal, searchTerm }: { signal?: any; searchTerm?: string }) {
 import axios from 'axios';
+
+export const queryClient = new QueryClient();
 
 export async function fetchEvents({ searchTerm }: { searchTerm?: string }) {
 	console.log(searchTerm);
@@ -65,4 +69,34 @@ export async function fetchSelectbaleImages() {
 	});
 	console.log('seo >>>>>>>>>>>>>>>>>', response);
 	return response.data.images;*/
+}
+
+export async function fetchEvent({ id }: { id: any }) {
+	const response = await fetch(`http://localhost:3000/events/${id}`);
+
+	if (!response.ok) {
+		const error = new Error('An error occurred while fetching the event') as any;
+		error.code = response.status;
+		error.info = await response.json();
+		throw error;
+	}
+
+	const { event } = await response.json();
+
+	return event;
+}
+
+export async function deleteEvent({ id }: { id: any }) {
+	const response = await fetch(`http://localhost:3000/events/${id}`, {
+		method: 'DELETE',
+	});
+
+	if (!response.ok) {
+		const error = new Error('An error occurred while deleting the event') as any;
+		error.code = response.status;
+		error.info = await response.json();
+		throw error;
+	}
+
+	return await response.json();
 }
