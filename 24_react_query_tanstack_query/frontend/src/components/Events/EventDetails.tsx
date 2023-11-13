@@ -19,7 +19,10 @@ export default function EventDetails() {
 		//mutationFn: () => deleteEvent({ id: params.id }),
 		mutationFn: deleteEvent,
 		onSuccess: async () => {
-			await queryClient.invalidateQueries({ queryKey: ['evnents'] });
+			await queryClient.invalidateQueries({
+				queryKey: ['evnents'],
+				/*refetchType: 'none' */
+			});
 			navigate(`/events`);
 		},
 	});
