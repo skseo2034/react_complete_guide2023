@@ -4,8 +4,11 @@ import Header from '../Header';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { deleteEvent, fetchEvent, queryClient } from '../../util/http';
 import ErrorBlock from '../UI/ErrorBlock';
+import { useState } from 'react';
+import Modal from '../UI/Modal';
 
 export default function EventDetails() {
+	const [isDeleting, setIsDeleting] = useState(false);
 	const params = useParams();
 	//const queryClient = useQueryClient();
 	const navigate = useNavigate();
@@ -15,7 +18,12 @@ export default function EventDetails() {
 		queryFn: () => fetchEvent({ id: params.id }),
 	});
 
-	const { mutate } = useMutation({
+	const {
+		mutate,
+		isPending: isPendingDeletion,
+		isError: isErrorDeleting,
+		error: deleteError,
+	} = useMutation({
 		//mutationFn: () => deleteEvent({ id: params.id }),
 		mutationFn: deleteEvent,
 		onSuccess: async () => {
@@ -26,6 +34,14 @@ export default function EventDetails() {
 			navigate(`/events`);
 		},
 	});
+
+	function handlStartDelete() {
+		setIsDeleting(true);
+	}
+
+	function handlStopDelete() {
+		setIsDeleting(false);
+	}
 
 	function handleDelete() {
 		mutate({ id: params.id });
@@ -63,7 +79,7 @@ export default function EventDetails() {
 				<header>
 					<h1>{data.title}</h1>
 					<nav>
-						<button onClick={handleDelete}>Delete</button>
+						<button onClick={handlStartDelete}>Delete</button>
 						<Link to="edit">Edit</Link>
 					</nav>
 				</header>
@@ -85,6 +101,32 @@ export default function EventDetails() {
 
 	return (
 		<>
+			{isDeleting && (
+				<Modal onClose={handlStopDelete}>
+					<h2>Are you sure?</h2>
+					<p>Do you really want to delete this event? This action cannot be undone.</p>
+					<div className="form-actions">
+						{isPendingDeletion && <p>Deleting, please wait...</p>}
+						{!isPendingDeletion && (
+							<>
+								<button onClick={handlStopDelete} className="button-text">
+									Cancel
+								</button>
+								<button onClick={handleDelete} className="button">
+									Delete
+								</button>
+							</>
+						)}
+					</div>
+					{isErrorDeleting && (
+						<ErrorBlock
+							title="Failed to delete event"
+							message="Failed to delete event, please try again later."
+						/>
+					)}
+				</Modal>
+			)}
+
 			<Outlet />
 			<Header>
 				<Link to="/events" className="nav-item">
