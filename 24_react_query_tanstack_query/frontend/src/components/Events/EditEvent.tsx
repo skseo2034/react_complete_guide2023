@@ -2,8 +2,8 @@ import { Link, useNavigate, useParams } from 'react-router-dom';
 
 import Modal from '../UI/Modal';
 import EventForm from './EventForm';
-import { useQuery } from '@tanstack/react-query';
-import { fetchEvent } from '../../util/http';
+import { useQuery, useMutation } from '@tanstack/react-query';
+import { fetchEvent, updateEvent } from '../../util/http';
 import LoadingIndicator from '../UI/LoadingIndicator';
 import ErrorBlock from '../UI/ErrorBlock';
 
@@ -16,8 +16,13 @@ export default function EditEvent() {
 		queryFn: () => fetchEvent({ id: params.id }),
 	});
 
+	const { mutate } = useMutation({
+		mutationFn: updateEvent,
+	});
+
 	function handleSubmit(formData: any) {
-		// dummy
+		mutate({ id: params.id, event: formData });
+		navigate('../');
 	}
 
 	function handleClose() {

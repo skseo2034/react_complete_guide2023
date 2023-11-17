@@ -100,3 +100,22 @@ export async function deleteEvent({ id }: { id: any }) {
 
 	return await response.json();
 }
+
+export async function updateEvent({ id, event }: { id: any; event: any }) {
+	const response = await fetch(`http://localhost:3000/events/${id}`, {
+		method: 'PUT',
+		body: JSON.stringify({ event }),
+		headers: {
+			'Content-Type': 'application/json',
+		},
+	});
+
+	if (!response.ok) {
+		const error = new Error('An error occurred while updating the event') as any;
+		error.code = response.status;
+		error.info = await response.json();
+		throw error;
+	}
+
+	return await response.json();
+}
