@@ -5,11 +5,16 @@ import axios from 'axios';
 
 export const queryClient = new QueryClient();
 
-export async function fetchEvents({ searchTerm }: { searchTerm?: string }) {
+export async function fetchEvents({ searchTerm, max }: { searchTerm?: string; max?: number }) {
 	console.log(searchTerm);
 	let url = 'http://localhost:3000/events';
-	if (searchTerm) {
+
+	if (searchTerm && max) {
+		url += '?search=' + searchTerm + '&max=' + max;
+	} else if (searchTerm) {
 		url += '?search=' + searchTerm;
+	} else if (max) {
+		url += '?max=' + max;
 	}
 	// const response = await fetch(url, signal);
 	const response = await fetch(url);
